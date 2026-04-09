@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LUXESTEP | Luxury Footwear</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --black: #0a0a0a;
+            --white: #ffffff;
+            --gold: #b8926a;
+            --gold-dark: #8e6f4e;
+            --whatsapp: #25d366;
+            --error: #e74c3c;
+            --font-title: 'Playfair Display', serif;
+            --font-body: 'Montserrat', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background-color: var(--white);
+            color: var(--black);
+            line-height: 1.6;
+        }
+
+        /* --- Header & Nav --- */
+        header {
+            background: var(--black);
+            padding: 1.5rem 5%;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid var(--gold);
+        }
+
+        .logo {
+            font-family: var(--font-title);
+            color: var(--gold);
+            font-size: 1.8rem;
+            letter-spacing: 4px;
+            text-decoration: none;
+        }
+
+        .btn-whatsapp {
+            background-color: var(--whatsapp);
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: transform 0.3s ease;
+        }
+
+        .btn-whatsapp:hover {
+            transform: scale(1.05);
+        }
+
+        /* --- Hero Section --- */
+        .hero {
+            height: 40vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), 
+                        url('https://images.unsplash.com/photo-1449241718242-233c4d797c9a?auto=format&fit=crop&q=80&w=1600');
+            background-size: cover;
+            background-position: center;
+            color: var(--white);
+        }
+
+        .hero h1 {
+            font-family: var(--font-title);
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        /* --- Product Grid --- */
+        .container {
+            max-width: 1200px;
+            margin: 4rem auto;
+            padding: 0 20px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 40px;
+        }
+
+        .card {
+            background: var(--white);
+            border: 1px solid #eee;
+            padding: 15px;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card:hover {
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            border-color: var(--gold);
+        }
+
+        .card img {
+            width: 100%;
+            height: 350px;
+            object-fit: cover;
+            margin-bottom: 1.5rem;
+        }
+
+        .card-info h3 {
+            font-family: var(--font-title);
+            font-size: 1.4rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .price {
+            color: var(--gold);
+            font-weight: 600;
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+        }
+
+        .size-selector {
+            margin-bottom: 1.5rem;
+        }
+
+        .size-selector select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            font-family: var(--font-body);
+            outline: none;
+        }
+
+        .btn-buy {
+            background: var(--black);
+            color: var(--white);
+            border: none;
+            padding: 1rem;
+            width: 100%;
+            cursor: pointer;
+            font-weight: 600;
+            letter-spacing: 1px;
+            transition: 0.3s;
+        }
+
+        .btn-buy:hover {
+            background: var(--gold);
+        }
+
+        /* --- Modal Styles --- */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            display: none; /* Hidden by default */
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            padding: 20px;
+        }
+
+        .modal {
+            background: var(--white);
+            width: 100%;
+            max-width: 500px;
+            padding: 2.5rem;
+            position: relative;
+            animation: slideIn 0.4s ease-out;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateY(-30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            cursor: pointer;
+            font-size: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.8rem;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            outline: none;
+        }
+
+        .input-error {
+            border-color: var(--error) !important;
+            background-color: #fff6f6;
+        }
+
+        .modal-footer {
+            margin-top: 2rem;
+        }
+
+        /* --- Loader & Success --- */
+        .loader-container {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid var(--gold);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 1rem;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .success-message {
+            display: none;
+            text-align: center;
+            color: var(--black);
+        }
+
+        .success-message i {
+            font-size: 4rem;
+            color: var(--gold);
+            margin-bottom: 1rem;
+        }
+
+        /* --- Responsive --- */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2rem; }
+            header { padding: 1rem 5%; }
+            .logo { font-size: 1.4rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="#" class="logo">LUXESTEP</a>
+        <a href="https://wa.me/1234567890" target="_blank" class="btn-whatsapp">
+            <i class="fab fa-whatsapp"></i> CONTACTO
+        </a>
+    </header>
+
+    <section class="hero">
+        <h1>ELEGANCIA EN CADA PASO</h1>
+        <p>Colección Exclusiva 2026</p>
+    </section>
+
+    <main class="container">
+        <div class="grid" id="product-grid">
+            </div>
+    </main>
+
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal" id="modalContent">
+            <span class="modal-close" onclick="closeModal()">&times;</span>
+            
+            <div id="checkoutForm">
+                <h2 style="font-family: var(--font-title); margin-bottom: 1.5rem;">CHECKOUT</h2>
+                <div class="form-group">
+                    <label>Nombre del Titular</label>
+                    <input type="text" id="cardName" placeholder="Juan Pérez">
+                </div>
+                <div class="form-group">
+                    <label>Número de Tarjeta</label>
+                    <input type="text" id="cardNumber" placeholder="0000 0000 0000 0000">
+                </div>
+                <div style="display: flex; gap: 10px;">
+                    <div class="form-group" style="flex: 2;">
+                        <label>Expiración</label>
+                        <input type="text" id="cardExp" placeholder="MM/AA">
+                    </div>
+                    <div class="form-group" style="flex: 1;">
+                        <label>CVC</label>
+                        <input type="text" id="cardCvc" placeholder="123">
+                    </div>
+                </div>
+                <button class="btn-buy" onclick="processPayment()">CONFIRMAR PAGO</button>
+            </div>
+
+            <div class="loader-container" id="loaderContainer">
+                <div class="spinner"></div>
+                <p>Procesando su pago de lujo...</p>
+            </div>
+
+            <div class="success-message" id="successMessage">
+                <i class="fas fa-truck-fast"></i>
+                <h2 style="font-family: var(--font-title);">¡ORDEN REALIZADA!</h2>
+                <p>El envío ya ha sido realizado a tu ubicación.</p>
+                <button class="btn-buy" style="margin-top: 2rem;" onclick="closeModal()">CERRAR</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Datos de productos
+        const products = [
+            { id: 1, name: "Oxford Heritage", price: 299, img: "https://images.unsplash.com/photo-1614252235316-8c857d38b5f4?auto=format&fit=crop&q=80&w=600" },
+            { id: 2, name: "Loafer Gold Edition", price: 350, img: "https://images.unsplash.com/photo-1626379616459-b2ce1d9decbb?auto=format&fit=crop&q=80&w=600" },
+            { id: 3, name: "Midnight Boot", price: 420, img: "https://images.unsplash.com/photo-1543163521-1bf539c55dd2?auto=format&fit=crop&q=80&w=600" },
+            { id: 4, name: "Royal Derby", price: 280, img: "https://images.unsplash.com/photo-1533867617858-e7b97e060509?auto=format&fit=crop&q=80&w=600" },
+            { id: 5, name: "Ivory Sneaker Luxe", price: 195, img: "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&q=80&w=600" },
+            { id: 6, name: "Chelsea Velvet", price: 380, img: "https://images.unsplash.com/photo-1638247025967-b4e38f687b76?auto=format&fit=crop&q=80&w=600" },
+            { id: 7, name: "Classic Monk", price: 310, img: "https://images.unsplash.com/photo-1449505278894-297fdb3edbc1?auto=format&fit=crop&q=80&w=600" },
+            { id: 8, name: "Suede Driver", price: 240, img: "https://images.unsplash.com/photo-1516478177764-9fe5bd7e9717?auto=format&fit=crop&q=80&w=600" },
+            { id: 9, name: "Imperial Wingtip", price: 450, img: "https://images.unsplash.com/photo-1476489501387-2c36d6026aa2?auto=format&fit=crop&q=80&w=600" }
+        ];
+
+        // Renderizar productos
+        const grid = document.getElementById('product-grid');
+        products.forEach(p => {
+            grid.innerHTML += `
+                <div class="card">
+                    <img src="${p.img}" alt="${p.name}">
+                    <div class="card-info">
+                        <h3>${p.name}</h3>
+                        <p class="price">$${p.price} USD</p>
+                        <div class="size-selector">
+                            <select id="size-${p.id}">
+                                <option value="">Seleccionar Talla</option>
+                                <option value="38">EU 38</option>
+                                <option value="39">EU 39</option>
+                                <option value="40">EU 40</option>
+                                <option value="41">EU 41</option>
+                                <option value="42">EU 42</option>
+                                <option value="43">EU 43</option>
+                                <option value="44">EU 44</option>
+                            </select>
+                        </div>
+                        <button class="btn-buy" onclick="openCheckout(${p.id})">COMPRAR</button>
+                    </div>
+                </div>
+            `;
+        });
+
+        // Funciones de Lógica
+        function openCheckout(id) {
+            const sizeSelect = document.getElementById(`size-${id}`);
+            if (sizeSelect.value === "") {
+                alert("Por favor, selecciona una talla antes de continuar.");
+                sizeSelect.focus();
+                return;
+            }
+            document.getElementById('modalOverlay').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('modalOverlay').style.display = 'none';
+            // Reset modal state for next time
+            document.getElementById('checkoutForm').style.display = 'block';
+            document.getElementById('loaderContainer').style.display = 'none';
+            document.getElementById('successMessage').style.display = 'none';
+            resetInputs();
+        }
+
+        function resetInputs() {
+            const inputs = ['cardName', 'cardNumber', 'cardExp', 'cardCvc'];
+            inputs.forEach(id => {
+                const el = document.getElementById(id);
+                el.value = "";
+                el.classList.remove('input-error');
+            });
+        }
+
+        function processPayment() {
+            const inputs = ['cardName', 'cardNumber', 'cardExp', 'cardCvc'];
+            let isValid = true;
+
+            inputs.forEach(id => {
+                const el = document.getElementById(id);
+                if (el.value.trim() === "") {
+                    el.classList.add('input-error');
+                    isValid = false;
+                } else {
+                    el.classList.remove('input-error');
+                }
+            });
+
+            if (!isValid) return;
+
+            // Simulación de procesamiento
+            document.getElementById('checkoutForm').style.display = 'none';
+            document.getElementById('loaderContainer').style.display = 'flex';
+
+            setTimeout(() => {
+                document.getElementById('loaderContainer').style.display = 'none';
+                document.getElementById('successMessage').style.display = 'block';
+            }, 2000);
+        }
+
+        // Cerrar modal al hacer click fuera
+        window.onclick = function(event) {
+            const overlay = document.getElementById('modalOverlay');
+            if (event.target == overlay) {
+                closeModal();
+            }
+        }
+    </script>
+</body>
+</html>
